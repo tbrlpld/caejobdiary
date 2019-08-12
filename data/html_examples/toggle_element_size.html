@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+	<style type="text/css">
+		.long-text {
+			display: inline-block;
+		}
+
+		.collapsed {
+			width: 100px;
+			white-space: nowrap;
+			overflow-x: hidden
+		}	
+
+		.collapse-toggle-btn {
+		}
+
+		.collapse-toggle-btn:after {
+			content: "+"
+		}
+
+		.collapse-btn:after {
+			content: "-"
+		}
+	</style>
+	<title>Example Toggle Size</title>
+</head>
+<body>
+	<div class="long-text collapsed">
+		This some longer content.
+		This some longer content.
+		This some longer content.
+		This some longer content.
+		This some longer content.
+	</div> 
+	<button type="button" class="collapse-toggle-btn"></button>
+
+	<div style="height: 100px"></div>
+
+	<table>
+		<tr>
+			<th>Long Field</th>
+		</tr>
+		<tr>
+			<td>
+				<div class="long-text collapsed">
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				</div> 
+				<button type="button" class="collapse-toggle-btn"></button>
+			</td>
+		</tr>
+			
+	</table>
+
+	<div style="height: 100px"></div>
+
+	<table>
+		<tr>
+			<th>Long Field</th>
+			<th>Normal Field</th>
+			<th>Another Long Field</th>
+		</tr>
+		<tr>
+			<td>
+				<div class="long-text collapsed">
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				</div> 
+				<button type="button" class="collapse-toggle-btn"></button>
+			</td>			
+			<td>
+				Something short
+			</td>
+			<td>
+				<div class="long-text collapsed">
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				</div> 
+				<button type="button" class="collapse-toggle-btn"></button>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="long-text collapsed">
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				</div> 
+				<button type="button" class="collapse-toggle-btn"></button>
+			</td>			
+			<td>
+				Something short
+			</td>
+			<td>
+				<div class="long-text collapsed">
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				This some longer content in a table. 
+				</div> 
+				<button type="button" class="collapse-toggle-btn"></button>
+			</td>
+		</tr>		
+			
+	</table>
+
+	<script type="text/javascript">
+		$(".collapse-toggle-btn").click(function(){
+			console.log("Collapse toggle button was clicked.")
+			$(this).toggleClass("collapse-btn")
+			button_parent = $(this).parent();
+			collapseable = button_parent.find(".long-text").first();
+			collapseable.toggleClass("collapsed")
+		});
+	</script>
+</body>
+</html>

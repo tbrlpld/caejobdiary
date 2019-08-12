@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.2"
+   width="32"
+   height="32"
+   viewBox="0 0 846.66669 846.66663"
+   preserveAspectRatio="xMidYMid"
+   clip-path="url(#presentation_clip_path)"
+   xml:space="preserve"
+   id="svg8"
+   sodipodi:docname="caejd_logo_32.svg"
+   style="fill-rule:evenodd;stroke-width:28.22200012;stroke-linejoin:round"
+   inkscape:export-filename="/Users/tibor/dev/CAEJobDiary/design/logo/caejd_logo.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"><metadata
+   id="metadata14"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs12" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1450"
+   inkscape:window-height="1065"
+   id="namedview10"
+   showgrid="false"
+   inkscape:zoom="1"
+   inkscape:cx="-0.66079548"
+   inkscape:cy="-44.998098"
+   inkscape:window-x="1184"
+   inkscape:window-y="709"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="g6"
+   units="px" />
+<g
+   id="g6"
+   transform="matrix(0.58090222,0,0,0.58644482,-235.8463,-404.80667)">
+    <path
+   d="m 1057.3216,1200.2402 374.5785,-497.22012 418.3604,707.70962 -394.8478,705.2238 z"
+   id="path2"
+   inkscape:connector-curvature="0"
+   style="fill:#000000;stroke:none;stroke-width:23.13326263" />
+    <path
+   d="M 406,1231.3486 1015.6998,1230.525 1408.9238,2134 706.79605,1936.3391 Z"
+   id="path4"
+   inkscape:connector-curvature="0"
+   style="fill:#000000;stroke:none;stroke-width:23.06171799" />
+</g>
+</svg>

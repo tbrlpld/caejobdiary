@@ -1,0 +1,15 @@
+==============================================================
+job_number:                 1234567
+submission_time:            Fri Jul 01 12:34:56 2010
+owner:                      doea
+uid:                        7654321
+sge_o_workdir:              /mnt/work/projects/project_id/some_directory
+sge_o_host:                 workstation01
+mail_list:                  Alice.Doe@example.com
+job_name:                   i_main_deck_name_01.dyn
+scheduling info:            queue instance "_req@x99abcde01.example.com" dropped because it is temporarily not available
+                            queue instance "local@x99xy057.example.com" dropped because it is temporarily not available
+                            queue instance "local@x99xy058.example.com" dropped because it is temporarily not available
+                            queue instance "dyn@x99xx006.example.com" dropped because it is full
+                            queue instance "dyn@x99xx011.example.com" dropped because it is full
+                            queue instance "dyn@x99xx120.example.com" dropped because it is full

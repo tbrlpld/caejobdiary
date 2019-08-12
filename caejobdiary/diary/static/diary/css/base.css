@@ -1,0 +1,37 @@
+/*
+General Design Basics
+*/
+
+@font-face{
+	font-family: 'Open Sans';
+	src: url(OpenSans/OpenSans-Regular.ttf);
+}
+/*
+@font-face{
+	font-family: 'Open Sans';
+	font-weight: 300;
+	src: url(OpenSans/OpenSans-Light.ttf);
+}*/
+
+@font-face{
+	font-family: 'Open Sans';
+	font-weight: 600;
+	src: url(OpenSans/OpenSans-SemiBold.ttf);
+}
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.9rem;
+}
+
+
+/* Analysis status badge */
+.don {
+	/* This badge can be hidden, because no attention needs to be drawn to done tasks. */
+	display: none;
+}
+
+.button-icon {
+	width: 16px;
+	height: auto;
+}

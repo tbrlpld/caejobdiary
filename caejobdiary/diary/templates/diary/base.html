@@ -1,0 +1,81 @@
+{% load static %}
+{% load feedback_email %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{# meta #}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	{# style #}
+	<link rel="stylesheet" href="{% static 'bootstrap-4.3.1-dist/css/bootstrap.min.css' %}">
+	<link rel="shortcut icon" href="{% static 'diary/img/caejd_logo_32.png' %}">
+	<link rel="stylesheet" href="{% static 'diary/css/base.css' %}">
+	{# script #}
+	<script src="{% static 'jquery/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script>
+	<script src="{% static 'bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
+	<script src="{% static 'diary/js/feedback.js' %}"></script>
+	{# other #}
+	<title>{% block title %}{% endblock %}CAE Job Diary</title>
+	{% block head %}
+	{% endblock %}
+</head>
+<body class="bg-light">
+	<div id="feedback-modal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header align-items-center">
+					<h5 class="modal-title">Give Feedback</h5>
+					<button type="button" class="close" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Just mail your feedback to the following email address:</p>
+					<div class="input-group input-group-sm mb-3">
+						<input type="text" class="form-control form-control-sm feedback-modal-email-display" name="feedback-email" value="{% get_feedback_email %}" >
+						<div class="input-group-append" id="button-addon3">
+							<a id="feedback-email-link" class="btn btn-light input-group-text" href="mailto:{% get_feedback_email %}?subject=Bug:&amp;body=Please add URL and a description of the bug:" data-toggle="tooltip" title="Send email">
+								<img class="button-icon" src="{% static 'diary/img/envelope-of-white-paper.svg' %}">
+							</a>
+							<button id="feedback-email-copy-button" type="button" class="btn btn-light input-group-text" data-toggle="tooltip" title="Copy email address">
+								<img class="button-icon" src="{% static 'diary/img/copy-document.svg' %}">
+							</button>
+						</div>
+					</div>
+					<p class="mb-0">You can style the email with <a href="https://gitlab.com/help/user/markdown" target="_blank">Markdown</a>.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<header class="sticky-top mb-3 border-bottom shadow-sm">
+		<nav class="navbar navbar-expand navbar-light bg-light border-bottom">
+				<a class="navbar-brand" href="{% url "diary:joblist" %}">
+					<img src="{% static 'diary/img/banner.svg' %}" height="42">
+				</a>
+				<div class="navbar-nav ml-auto">
+					<a class="nav-item nav-link" href="{% url "diary:joblist" %}">Job List</a>
+					<a class="nav-item nav-link" href="{% url "diary:about" %}">About</a>
+					<a class="nav-item nav-link" href="#" data-toggle="modal" data-target="#feedback-modal">Give Feedback</a>
+				</div>
+		</nav>
+		<div class="container-fluid">
+			<div class="row py-2 bg-light" style="min-height: 50px;">
+				<div class="col-12 h4 my-0 d-flex flex-row text-nowrap align-items-center justify-content-between">
+					{% block page_title %}{% endblock %}
+					{% block page_header_content %}{% endblock %}
+				</div>
+			</div>
+		</div>
+	</header>
+	{# Fixed top position is used, because IE11 is not supporting sticky #}
+	{# Margin top of container needs to be adjusted to header sizing #}
+	<div class="container-fluid">
+		<div class="row">
+			<main class="col">
+			{% block content %}
+			{% endblock %}
+			</main>
+		</div>
+	</div>
+</body>
+</html>

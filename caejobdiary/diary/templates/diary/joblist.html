@@ -1,0 +1,162 @@
+{% extends "diary/base.html"%}
+{% load static %}
+{% load verbose_names %}
+{% load request_querystring %}
+{% load status_to_bootstrap_color %}
+{% block title %}
+Job List |
+{% endblock %}
+{% block head %}
+	<link rel="stylesheet" href="{% static 'diary/css/joblist.css' %}">
+	<script src="{% static 'diary/js/joblist.js' %}"></script>
+{% endblock %}
+{% block page_title %}
+<span class="pr-2">Job List</span>
+{% endblock %}
+{% block page_header_content %}
+<form action="{% url 'diary:joblist' %}" method="get" class="w-100">
+	<div class="pl-2 form-row align-items-center justify-content-end">
+		<div class="col-md-3">
+			<input type="search" class="form-control form-control-sm" name="q"
+				{% if current_search_query %}
+					value="{{current_search_query}}"
+				{% else %}
+					placeholder="Search for jobs..."
+				{% endif %}
+				>
+		</div>
+		<div class="col-md-3">
+			<div class="input-group input-group-sm">
+				<div class="input-group-prepend ">
+					<label class="input-group-text" for="user-filter-select">Filter</label>
+				</div>
+				<select id="user-filter-select" name="user" class="custom-select">
+					<option
+						{% if not current_user_filter %}
+							selected
+						{% endif %}
+						value="">Select user</option>
+					<option disabled>──────────</option>
+					{% for username in usernames %}
+						<option
+						{% if username == current_user_filter %}
+							selected
+						{% endif %}
+						>{{username}}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="input-group input-group-sm">
+				<div class="input-group-prepend ">
+					<label class="input-group-text" for="project-filter-select">Filter</label>
+				</div>
+				<select id="project-filter-select" name="project" class="custom-select">
+					<option
+					{% if not current_project_filter %}
+						selected
+					{% endif %}
+					value="">Select project</option>
+					<option disabled>──────────</option>
+					{% for project in projects %}
+						<option
+						{% if project == current_project_filter %}
+								selected
+						{% endif %}
+						>{{project}}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+		<div class="col-auto">
+			{% if show_obsolete %}<input type="hidden" name="show_obsolete">{% endif%}
+			<input type="submit" class="input-group btn btn-outline-dark btn-sm" value="Apply">
+		</div>
+	</div>
+</form>
+{% endblock %}
+{% block content %}
+	{% if jobs_list %}
+		{% for job in jobs_list %}
+		<div class="card mb-2 shadow-sm">
+			<div class="row no-gutters">
+				<div class="col-9">
+					<div class="card-body p-3">
+						<div class="row">
+							<div class="col-12 d-flex flex-column flex-md-row text-nowrap align-items-baseline">
+								<h5 class="card-title">
+									<a href="{% url "diary:detail" job_id=job.job_id %}{% get_full_querystring request %}" class="badge badge-primary">{{ job.job_id}}</a>
+								</h5>
+								<h6 class="card-title mx-2 text-truncate">
+									{{ job.main_name }}
+								</h6>
+								<h6>
+									<span class="badge badge-pill badge-{% job_status_to_color job.job_status %}">{{ job.get_job_status_display }}</span>
+									<span class="badge badge-pill badge-{% analysis_status_to_color job.analysis_status %} {{ job.analysis_status }}">analysis {{ job.get_analysis_status_display }}</span>
+									{% if job.result_assessment %}
+									<span class="badge badge-pill badge-{% result_assessment_to_color job.result_assessment %}">{{ job.get_result_assessment_display }}</span>
+									{% endif %}
+								</h6>
+							</div>
+						</div>
+						<div class="row text-wrap-container no-gutters">
+							<div class="col-12 col-md-6 pr-md-2">
+								<div class="card card-body text-wrap-toggler p-2">
+									<div class="card-text text-muted text-truncate text-wrappable ">
+									{{ job.info }}
+									</div>
+								</div>
+							</div>
+							{% if job.result_summary %}
+							<div class="col-12 col-md-6 pl-md-2">
+								<div class="card card-body text-wrap-toggler p-2">
+									<div class="card-text text-muted text-truncate text-wrappable">
+										{{ job.result_summary }}
+									</div>
+								</div>
+							</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+				<div class="col-3 border-left align-items-stretch text-center">
+					<ul class="list-group list-group-flush h-100">
+						<li class="list-group-item py-2 d-flex flex-column flex-md-row justify-content-around">
+							<a href="{% url 'diary:joblist' %}?user={{ job.user }}">{{ job.user }}</a>
+							<a href="{% url 'diary:joblist' %}?project={{ job.project }}">{{ job.project }}</a>
+						</li>
+						{% if job.base_runs.all %}
+						<li class="list-group-item py-2">
+							{% for base_run in job.base_runs.all %}
+								<a href="{% url "diary:detail" job_id=base_run.job_id %}{% get_full_querystring request %}" class="badge badge-secondary">{{ base_run.job_id}}</a>
+							{% endfor %}
+						</li>
+						{% endif %}
+						<li class="list-group-item py-2">
+							<small class="text-muted">
+								{{ job.sub_date }}
+							</small>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		<nav>
+			<ul class="pagination">
+				{% if jobs_list.has_previous %}
+				<li class="page-item"><a class="page-link" href="?{% get_extendable_request_querystring request %}page=1">&laquo; first</a></li>
+				<li class="page-item"><a class="page-link" href="?{% get_extendable_request_querystring request %}page={{ jobs_list.previous_page_number }}">previous</a></li>
+				{% endif %}
+				<li class="page-item disabled"><a class="page-link" href="#">Page {{ jobs_list.number }} of {{ jobs_list.paginator.num_pages}}</a></li>
+				{% if jobs_list.has_next %}
+				<li class="page-item"><a class="page-link" href="?{% get_extendable_request_querystring request %}page={{ jobs_list.next_page_number }}">next</a></li>
+				<li class="page-item"><a class="page-link" href="?{% get_extendable_request_querystring request %}page={{ jobs_list.paginator.num_pages }}">last &raquo;</a></li>
+				{% endif %}
+			</ul>
+		</nav>
+	{% else %}
+	Sorry, no jobs available.
+	{% endif %}
+{% endblock %}

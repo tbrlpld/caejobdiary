@@ -1,0 +1,5 @@
+include *.txt *.md
+include config/logging.conf
+recursive-exclude .DS_Store
+recursive-include cae_job_diary/diary/templates *
+recursive-include cae_job_diary/diary/static *

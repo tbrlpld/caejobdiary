@@ -1,0 +1,162 @@
+{% extends "diary/base.html"%}
+{% load static %}
+{% load verbose_names %}
+{% load request_querystring %}
+{% load status_to_bootstrap_color %}
+{% block head %}
+	<link rel="stylesheet" href="{% static 'diary/css/detail.css' %}">
+	<script src="{% static 'diary/js/detail.js' %}"></script>
+{% endblock %}
+{% block title %}
+Job {{ job.job_id }} |
+{% endblock %}
+{% block page_title %}
+<span class="text-truncate">
+	<span class="badge badge badge-primary">{{ job.job_id }}</span><span class="px-2">{{ job.main_name }}</span>
+</span>
+{% endblock %}
+{% block page_header_content %}
+<div class="d-flex align-items-center justify-content-end text-nowrap">
+	<a class="btn btn-outline-dark btn-sm" href="{% url "diary:joblist" %}{% get_full_querystring request %}">&#8676 Back to Job List</a>
+</div>
+{% endblock %}
+{% block content %}
+	{% if update_success %}
+		<div id="changes-success" class="alert alert-success alert-dismissible fade show" role="alert">
+			Changes successfully saved!
+			<button type="button" class="close" data-dismiss="alert">
+				<span>&times;</span>
+			</button>
+		</div>
+	{% endif%}
+	<div id="unsaved-changes-msg" class="alert alert-info" role="alert" style="display: none">You have unsaved changes!</div>
+	<div class="card shadow-sm mb-3">
+		<div class="row no-gutters">
+			<div class="col-9">
+				<div class="card-body">
+					<form id="detail-form" action="{% url "diary:detail" job.job_id %}{% get_full_querystring request %}" method="post">
+						<!--
+						The current detail page might have a querystring if it was linked to by a filtered index.
+						That querystring needs to be passed through, even if the form is submitted, because the form 
+						redirects to the same detail view. 
+						The whole point is to be able to get back to the filtered index view, even after the form was
+						submitted.
+						The current querystring is added to the action URL.
+						 -->
+						{% csrf_token %}
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									{{ form.job_status.errors }}
+									<label for="{{ form.job_status.id_for_label }}" class="text-muted">{{ form.job_status.label | title }}</label>
+									<select id="{{ form.job_status.id_for_label }}" class="custom-select" name="{{ form.job_status.html_name }}">
+										{% for choice in  form.job_status.field.choices %}
+										<option value="{{ choice.0 }}" {% if choice.0 == form.job_status.value %}selected{% endif %}>{{ choice.1 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12 col-sm-6">
+								<div class="form-group">
+									{{ form.info.errors }}
+									<label for="{{ form.info.id_for_label }}" class="text-muted">{{ form.info.label | title }}</label>
+									<textarea id="{{ form.info.id_for_label }}" class="form-control" name="{{ form.info.html_name }}" rows="10">{{ form.info.value }}</textarea>
+								</div>
+							</div>
+							<div class="col-12  col-sm-6">
+								<div class="form-group">
+									{{ form.result_summary.errors }}
+									<label for="{{ form.result_summary.id_for_label }}" class="text-muted">{{ form.result_summary.label | title }}</label>
+									<textarea id="{{ form.result_summary.id_for_label }}" class="form-control" name="{{ form.result_summary.html_name }}" rows="10">{{ form.result_summary.value }}</textarea>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12 col-sm-6">
+								<div class="form-group">
+									{{ form.analysis_status.errors }}
+									<label for="{{ form.analysis_status.id_for_label }}" class="text-muted">{{ form.analysis_status.label | title }}</label>
+									<select id="{{ form.analysis_status.id_for_label }}" class="custom-select" name="{{ form.analysis_status.html_name }}">
+										{% for choice in  form.analysis_status.field.choices %}
+										<option value="{{ choice.0 }}" {% if choice.0 == form.analysis_status.value %}selected{% endif %}>{{ choice.1 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-12 col-sm-6">
+								<div class="form-group">
+									{{ form.result_assessment.errors }}
+									<label for="{{ form.result_assessment.id_for_label }}" class="text-muted">{{ form.result_assessment.label | title }}</label>
+									<select id="{{ form.result_assessment.id_for_label }}" class="custom-select" name="{{ form.result_assessment.html_name }}">
+										{% for choice in  form.result_assessment.field.choices %}
+										<option value="{{ choice.0 }}" {% if choice.0 == form.result_assessment.value %}selected{% endif %}>{{ choice.1 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="col-12">
+								<div id="obsolete_warning" class="alert alert-warning" role="alert" style="display: none">
+									Attention! "Obsolete" jobs are hidden from the job list by default! <br>
+									To show obsolete jobs in the job list, add <code>?show_obsolete</code> to the URL.<br>
+									For more information see the <a href="{% url "diary:about" %}#help" target="_blank" class="alert-link">help section</a> on the "About" page.
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col d-flex justify-content-between">
+								<input type="submit" class="btn btn-success" value="Save Changes">
+								<input id="reset-button" class="btn btn-link" type="reset" value="Reset">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-3 border-left">
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">
+						<label for="job_id" class="text-muted small mb-0">{% get_verbose_field_name job "job_id" %}</label>
+						<div id="job_id">{{ job.job_id }}</div>
+					</li>
+					<li class="list-group-item">
+						<label for="main_name" class="text-muted small mb-0">{% get_verbose_field_name job "main_name" %}</label>
+						<div id="main_name">{{ job.main_name }}</div>
+					</li>
+					<li class="list-group-item">
+						<label for="job_status" class="text-muted small mb-0">{% get_verbose_field_name job "job_status" %}</label>
+						<div id="job_status"><span class="badge badge-pill badge-{% job_status_to_color job.job_status %}">{{ job.get_job_status_display }}</span></div>
+					</li>
+					<li class="list-group-item">
+						<label for="project" class="text-muted small mb-0">{% get_verbose_field_name job "project" %}</label>
+						<div class="project"><a href="{% url 'diary:joblist' %}?project={{ job.project }}">{{ job.project }}</a></div>
+					</li>
+					<li class="list-group-item">
+						<label for="user" class="text-muted small mb-0">{% get_verbose_field_name job "user" %}</label>
+						<div id="user"><a href="{% url 'diary:joblist' %}?user={{ job.user }}">{{ job.user }}</a></div>
+					</li>
+					<li class="list-group-item">
+						<label for="base_runs" class="text-muted small mb-0">{% get_verbose_field_name job "base_runs" %}</label>
+						<div id="base_runs">
+							{% for base_run in job.base_runs.all %}
+								<a href="{% url "diary:detail" job_id=base_run.job_id %}" class="badge badge-secondary">{{ base_run.job_id}}</a>
+							{% endfor %}
+						</div>
+					</li>
+					<li class="list-group-item">
+						<label for="sub_dir" class="text-muted small mb-0">{% get_verbose_field_name job "sub_dir" %}</label>
+						<div id="sub_dir">{{ job.sub_dir }}</div>
+					</li>
+					<li class="list-group-item">
+						<label for="job_dir" class="text-muted small mb-0">{% get_verbose_field_name job "job_dir" %}</label>
+						<div id="job_dir">{{ job.job_dir }}</div>
+					</li>
+					<li class="list-group-item">
+						<label for="sub_date" class="text-muted small mb-0">{% get_verbose_field_name job "sub_date" %}</label>
+						<div id="sub_date">{{ job.sub_date }}</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+# Project specific ignores
+config/
+secrets.json
+MANIFEST
+dist
+logs
+*.pem
+sensitive/
+
+# General ignores
+env*
+*.pyc
+*.pyo
+__pycache__
+*.sqlite3
+*.DS_Store
+.idea
+.vagrant

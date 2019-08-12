@@ -1,0 +1,38 @@
+# image: python:3.4
+# image: python:3.7
+image: tibsel/caejdci:python
+
+before_script:
+ # - apt-get update -qq && apt-get install -y -qq sqlite3 libsqlite3-dev
+- echo "This is the before_script section"
+# Start mysql
+- /sbin/chkconfig --levels 235 mysqld on
+- /sbin/service mysqld start
+- /sbin/service mysqld status
+# Configuring database
+- mysql -u root < ci/create_user.sql
+- mysql -u caejd --password=password < ci/create_db.sql
+# Create python environment
+- /usr/local/bin/python3.7 -m venv env
+- source env/bin/activate
+- python --version
+- export DJANGO_SETTINGS_MODULE="caejobdiary.settings.ci"
+- echo DJANGO_SETTINGS_MODULE $DJANGO_SETTINGS_MODULE
+# - pip install -r requirements.txt
+- pip install -r requirements.txt --no-index --find-links wheelhouse
+- echo "Repository content:"
+- ls -l
+# Creating secrets file
+- python bin/make_secrets.py ./config
+# Migrating database changes
+- python caejobdiary/manage.py migrate
+
+test_diary:
+  type: test
+  script: 
+    - python caejobdiary/manage.py test diary
+
+test_utils:
+  type: test
+  script: 
+    - python caejobdiary/manage.py test utils

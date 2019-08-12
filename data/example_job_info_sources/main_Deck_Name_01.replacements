@@ -1,0 +1,12 @@
+{
+    "LOCO_PARAMETER_WITH_REPLACEMENT_FORMAT": "   1e-24",
+    "parameterDoNotNeedToBeAllCaps": "y",
+    "RUN_ATTRIBUTE_the_attribute_name": "Value",
+    "RUN_ATTRIBUTE_the_attribute_name.ATTRIBUTE": "the_attribute_name",
+    "RUN_ATTRIBUTE_the_attribute_name.DESCRIPTION": "",
+    "RUN_ATTRIBUTE_the_attribute_name.NAMESCHEME_VALUE": "Val",
+    "RUN_ATTRIBUTE_the_attribute_name.VALUE": "Value",
+    "USER_NAME": "Alice Doe",
+    "USER_NAME_1": "Doe",
+    "USER_NAME_2": "Alice",
+}

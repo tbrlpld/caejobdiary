@@ -1,0 +1,27 @@
+{% extends "diary/base.html"%}
+{% block title %}
+About |
+{% endblock %}
+{% block page_title %}About{% endblock %}
+{% block content %}
+	<h5 id="help">Help</h5>
+	<ul>
+		<li>Obsolete Jobs 
+			<p>
+			Obsolete jobs (such with a result assessment set to "obsolete") are hidden from the job list by default.
+			It is still possible to access the detail page of that job via it's job id in the URL (e.g. <code>/1234567/</code>).
+			To show obsolete jobs in the job list, add <code>/?show_obsolete</code> to the URL like <a href="{% url "diary:joblist" %}?show_obsolete" >this</a>.
+			If there are other query parameters present in the URL, the <code>show_obsolete</code> option can be chained via <code>&amp;</code> like <a href="{% url "diary:joblist" %}?q=main&amp;user=&amp;project=&amp;show_obsolete">this</a>.
+			</p>
+		</li>
+	</ul>
+	<h5 id="contributions">Contributions</h5>
+	This page was build with contributions by the following people or materials from the following sources:
+	<ul>
+		<li>Icons made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> are licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></li>
+		<li>Banner includes the font <a href="https://fonts.google.com/specimen/Amatic+SC">Amatic SC</a> by Vernon Adams and others which is licensed under <a href="https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;id=OFL_web">Open Font License</a></li>
+		<li>Main font of the page is <a href="https://fonts.google.com/specimen/Open+Sans">Open Sans</a> by Steve Matteson which is licensed under <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a></li>
+		<li>DOM manipulation on the page is powered by <a href="https://jquery.com/">jQuery</a> which is licensed under <a href="https://jquery.org/license/">The MIT License</a></li>
+		<li>Styling of the page relies on <a href="https://getbootstrap.com/">Bootstrap</a> which is licensed under <a href="https://github.com/twbs/bootstrap/blob/v4.3.1/LICENSE">The MIT License</a></li>
+	</ul>
+{% endblock %}
