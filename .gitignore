@@ -8,7 +8,8 @@ logs
 sensitive/
 
 # General ignores
-env*
+env*/
+venv/
 *.pyc
 *.pyo
 __pycache__
