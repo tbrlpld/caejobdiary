@@ -25,14 +25,14 @@ before_script:
 # Creating secrets file
 - python bin/make_secrets.py ./config
 # Migrating database changes
-- python caejobdiary/manage.py migrate
+- python manage.py migrate
 
 test_diary:
   type: test
   script: 
-    - python caejobdiary/manage.py test diary
+    - python manage.py test diary
 
 test_utils:
   type: test
   script: 
-    - python caejobdiary/manage.py test utils
+    - python manage.py test utils
