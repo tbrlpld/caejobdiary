@@ -1,12 +1,14 @@
 from datetime import date
 import logging
+import sys
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from diary.models import Job, JobQuerySet, Keyword
-from utils.logger_copy import copy_logger_settings
+sys.path.insert(0, settings.TOP_LEVEL_DIR)
+from diary.models import Job, Keyword  # noqa: E402
+from utils.logger_copy import copy_logger_settings  # noqa: E402
 
 
 logger = logging.getLogger("testing_control").getChild(__name__)

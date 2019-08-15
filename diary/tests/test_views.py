@@ -1,10 +1,13 @@
 import logging
+import sys
 
-from django.test import TestCase
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.test import TestCase
 
-from diary.models import Job
-from utils.logger_copy import copy_logger_settings
+sys.path.insert(0, settings.TOP_LEVEL_DIR)
+from diary.models import Job  # noqa: E402
+from utils.logger_copy import copy_logger_settings  # noqa: E402
 
 
 logger = logging.getLogger("testing_control").getChild(__name__)
