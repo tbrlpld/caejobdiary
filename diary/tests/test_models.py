@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from ..models import Job, JobQuerySet, Keyword
+from diary.models import Job, JobQuerySet, Keyword
 from utils.logger_copy import copy_logger_settings
 
 

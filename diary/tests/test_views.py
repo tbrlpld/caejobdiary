@@ -3,7 +3,7 @@ import logging
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from ..models import Job
+from diary.models import Job
 from utils.logger_copy import copy_logger_settings
 
 
