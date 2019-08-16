@@ -5,12 +5,10 @@ import logging
 import logging.config
 import os
 import shutil
-import sys
 import tempfile
 from datetime import datetime, timedelta
 
 import before_after
-import django
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 import pytz
@@ -18,9 +16,8 @@ import pytz
 from diary.models import Job
 from utils.caefileio.readme import get_job_info_from_readme
 from utils.logger_copy import copy_logger_settings
-from utils.tests.helper import add_content_to_temp_inputfilepath
-from utils.tests.helper import make_readme
-from utils.tests.helper import make_cluster_script
+from test_utils.helper import add_content_to_temp_inputfilepath
+from test_utils.helper import make_readme
 
 # Major Functions
 from utils.jobinfo.poll import start_job_creation_process_from_joblogfile

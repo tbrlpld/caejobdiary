@@ -8,10 +8,11 @@ import logging
 import os
 import tempfile
 
+from django.conf import settings
 from django.test import TestCase
 
 from utils.logger_copy import copy_logger_settings
-from utils.tests.helper import add_content_to_temp_inputfilepath
+from test_utils.helper import add_content_to_temp_inputfilepath
 
 from utils.caefileio.readme import get_job_info_from_readme
 from utils.caefileio.readme import get_readme_filename_from_job_dir
@@ -46,8 +47,9 @@ logger.info("Tests running on CI: {}".format(running_on_ci))
 # -----------------------------------------------------------------------------
 
 # Example files are stored below the top level
-TOP_LEVEL_DIR = os.path.dirname(os.path.dirname(os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+TOP_LEVEL_DIR = settings.TOP_LEVEL_DIR
+# TOP_LEVEL_DIR = os.path.dirname(os.path.dirname(os.path.dirname(
+#     os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 
 
 # -----------------------------------------------------------------------------
