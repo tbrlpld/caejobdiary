@@ -11,8 +11,6 @@ import django.conf
 # of the project possible.
 TOP_LEVEL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, TOP_LEVEL_DIR)
-DJANGO_PROJECT_DIR = os.path.join(TOP_LEVEL_DIR, "caejobdiary")
-sys.path.insert(0, DJANGO_PROJECT_DIR)
 
 from utils.graceful_killer import GracefulKiller
 from utils.jobinfo import poll, update
@@ -33,7 +31,7 @@ logging.config.dictConfig(django.conf.settings.LOGGING)
 def run_django_server():
     graceful_killer = GracefulKiller(name="Django")
 
-    manage_path = os.path.join(DJANGO_PROJECT_DIR, "manage.py")
+    manage_path = os.path.join(TOP_LEVEL_DIR, "manage.py")
     django_call = ["python", manage_path, "runserver", "0:8000"]
     django_proc = subprocess.Popen(
         django_call,
