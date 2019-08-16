@@ -546,14 +546,19 @@ Since the development machine is probably not embedded in the production environ
 
 ### Testing
 
-The tests are defined in `diary/tests/` and in `utils/tests`.
-Within the testing directory, define the same module structure as in the actual package.
-Create separate test modules for separate modules. 
+The tests are defined in the `tests/` directory.
+Within the testing directory, define the same structure as in the actual package.
+Create separate test modules/packages for separate modules/packages. 
 
-To run the tests:
+To run all tests:
 ```sh
-python manage.py test diary
-python manage.py test utils
+python manage.py test tests
+```
+
+Or specify which package or module should be tested.
+```sh
+python manage.py test tests/test_diary
+python manage.py test tests/test_utils
 ```
 
 Since it is not possible to use the actual info sources for the `poll` and `update` processes, it is even more important for dem to be developed with a test driven development approach.
