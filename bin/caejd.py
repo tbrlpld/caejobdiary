@@ -12,9 +12,9 @@ import django.conf
 TOP_LEVEL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, TOP_LEVEL_DIR)
 
-from utils.graceful_killer import GracefulKiller
-from utils.jobinfo import poll, update
-from utils.logger_copy import copy_logger_settings
+from utils.graceful_killer import GracefulKiller  # noqa: E402
+from utils.jobinfo import poll, update  # noqa: E402
+from utils.logger_copy import copy_logger_settings  # noqa: E402
 
 
 # -----------------------------------------------------------------------------
