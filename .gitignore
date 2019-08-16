@@ -9,7 +9,7 @@ sensitive/
 
 # General ignores
 env*/
-venv/
+venv*/
 *.pyc
 *.pyo
 __pycache__
