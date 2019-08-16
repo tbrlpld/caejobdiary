@@ -6,17 +6,17 @@
 >
 > CAE Job Diary can help answering these questions. 
 
-CAE Job Diary consists of two main sub-modules. 
-First is `diary` this is the Django web application that defined the models and how the user can interact with the application.
-The second sub-module is `utils` which defines the backend tools to gather information from the relevant sources and adds them to the database.
+CAE Job Diary consists of two main packages. 
+First is `diary` this is the Django web application that defines the models and how the user can interact with the application.
+The second package is `utils` which defines the backend tools to gather information from the relevant sources and adds them to the database.
 
 The web application `diary` will work fine as long as relevant data is available in the connected database. 
 It should be noted, that there is currently no way for the user to create new jobs through the web application. 
 The web application is designed to reduce the documentation workload by providing information about submitted jobs automatically.
 Thus, the web application expects backend processes to add this information to the database without user interaction.
 
-This is where the `utils` module (the name should probably be changed) comes into play.
-The `utils` module defines the backend functionality to poll and update information about submitted jobs automatically.
+This is where the `utils` package (the name should probably be changed) comes into play.
+The `utils` package defines the backend functionality to poll and update information about submitted jobs automatically.
 So far, the development has been very specific to the environment in the company I used to work for and is not transferable to other environments without major code changes. 
 
 
@@ -283,7 +283,7 @@ To be able to connect Django to the database, you need to define the password fo
 Now Django can connect to the database using the `caejd` user and the given password and the database schema can be migrated.
 
 ```sh
-$ python caejobdiary/manage.py migrate
+$ python manage.py migrate
 ```
 
 ### Start the CAE Job Diary Backend Process in a Screen
@@ -414,7 +414,7 @@ $ pip install -r requirements.txt --no-index --find-links wheelhouse
 
 Migrate the DB changes.
 ```sh
-$ python caejobdiary/manage.py migrate
+$ python manage.py migrate
 ```
 
 Start the backend process again.
@@ -524,7 +524,7 @@ See the [corresponding section](define-a-secret-key) in the deployment instructi
 Run database migrations.
 
 ```sh
-python caejobdiary/manage.py migrate
+python manage.py migrate
 ```
 
 To create some sample entries in the development database, just run:
@@ -538,7 +538,7 @@ python populate_diary.py
 
 To run the web server(without the backend polling and update processes):
 ```sh
-python caejobdiary/manage.py runserver
+python manage.py runserver
 ```
 
 Since the development machine is probably not embedded in the production environment and thus does not have access to the polled and checked directories, it does not make sense to run these processes on the development machine. 
@@ -552,8 +552,8 @@ Create separate test modules for separate modules.
 
 To run the tests:
 ```sh
-python caejobdiary/manage.py test diary
-python caejobdiary/manage.py test utils
+python manage.py test diary
+python manage.py test utils
 ```
 
 Since it is not possible to use the actual info sources for the `poll` and `update` processes, it is even more important for dem to be developed with a test driven development approach.
