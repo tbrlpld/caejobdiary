@@ -12,7 +12,7 @@ from django.conf import settings
 from django.test import TestCase
 
 from utils.logger_copy import copy_logger_settings
-from utils.tests.helper import add_content_to_temp_inputfilepath
+from test_utils.helper import add_content_to_temp_inputfilepath
 
 from utils.caefileio.readme import get_job_info_from_readme
 from utils.caefileio.readme import get_readme_filename_from_job_dir

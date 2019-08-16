@@ -30,9 +30,9 @@ before_script:
 test_diary:
   type: test
   script: 
-    - python manage.py test diary
+    - python manage.py test tests/test_diary
 
 test_utils:
   type: test
   script: 
-    - python manage.py test utils
+    - python manage.py test tests/test_utils
