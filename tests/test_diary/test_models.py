@@ -4,10 +4,11 @@ import sys
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 sys.path.insert(0, settings.TOP_LEVEL_DIR)
-from diary.models import Job, Keyword  # noqa: E402
+from diary.models import Job, Keyword, Tag  # noqa: E402
 from utils.logger_copy import copy_logger_settings  # noqa: E402
 
 
@@ -15,6 +16,87 @@ logger = logging.getLogger("testing_control").getChild(__name__)
 copy_logger_settings("testing_subject", "diary.models")
 
 User = get_user_model()
+
+
+class TestTagValidation(TestCase):
+    """Testing the validation of tags"""
+
+    def test_valid_tags(self):
+        valid_tag1 = Tag(tag="#alllower")
+        self.assertIsNone(valid_tag1.full_clean())
+        valid_tag2 = Tag(tag="#chamelCase")
+        self.assertIsNone(valid_tag2.full_clean())
+        valid_tag3 = Tag(tag="#UpperFirst")
+        self.assertIsNone(valid_tag3.full_clean())
+        valid_tag4 = Tag(tag="#ALLUPPER")
+        self.assertIsNone(valid_tag4.full_clean())
+        valid_tag5 = Tag(tag="#withNumber1")
+        self.assertIsNone(valid_tag5.full_clean())
+
+    def test_tag_not_starting_with_hashsymbol(self):
+        invalid_tag = Tag(tag="newtag")
+        self.assertRaises(ValidationError, invalid_tag.full_clean)
+
+    def test_tag_with_space(self):
+        invalid_tag = Tag(tag="#new tag")
+        self.assertRaises(ValidationError, invalid_tag.full_clean)
+
+    def test_tag_with_underscore(self):
+        invalid_tag = Tag(tag="#new_tag")
+        self.assertRaises(ValidationError, invalid_tag.full_clean)
+
+    def test_tag_with_hyphen(self):
+        invalid_tag = Tag(tag="#new-tag")
+        self.assertRaises(ValidationError, invalid_tag.full_clean)
+
+    def test_tag_with_has_in_middle(self):
+        invalid_tag = Tag(tag="#new#tag")
+        self.assertRaises(ValidationError, invalid_tag.full_clean)
+
+
+class TestTagFeature(TestCase):
+    """Test regarding the tags feature"""
+
+    def setUp(self):
+        self.user_A = User.objects.create(
+            username="usera", email="usera@example.com")
+
+        self.project_A = "3001234"
+
+        self.job_user_A_project_A = Job(
+            job_id=123,
+            user=self.user_A,
+            project=self.project_A,
+            main_name="some_main_title.key",
+            sub_dir="/some/not/existing/path",
+            job_status=Job.JOB_STATUS_PENDING
+        )
+        self.job_user_A_project_A.full_clean()
+        self.job_user_A_project_A.save()
+
+    def test_creation_of_tags_in_db(self):
+        Tag.objects.create(tag="#newtag1")
+        newtag2 = Tag(tag="#newTag2")
+        newtag2.full_clean()
+        newtag2.save()
+        #  Check if creation worked by retrieving objects from db.
+        tags = Tag.objects.all()
+        for tag in tags:
+            self.assertTrue((tag.tag == "#newtag1" or tag.tag == "#newTag2"))
+
+    def test_adding_tag_to_job_and_retrieving_the_job_via_tag(self):
+        job_obj = Job.objects.get(job_id=self.job_user_A_project_A.job_id)
+        newtag = Tag(tag="#newtag")
+        newtag.full_clean()
+        newtag.save()
+        job_obj.tags.add(newtag)
+        job_obj.full_clean()
+        job_obj.save()
+        # Grab job via the tag
+        job_by_tag = Job.objects.filter(tags__tag__exact=newtag.tag).first()
+        self.assertEqual(job_by_tag.job_id, job_obj.job_id)
+        self.assertIn(newtag, job_by_tag.tags.all())
+        self.assertEqual(newtag, job_by_tag.tags.first())
 
 
 class TestJobQuerySetKeywordSearch(TestCase):
@@ -1385,3 +1467,4 @@ class TestProjectExtractionFromSubDir(TestCase):
         job.full_clean()
         job.save()
         self.assertEqual(Job.objects.get(job_id=123).project, "3001234")
+

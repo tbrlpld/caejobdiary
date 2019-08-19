@@ -3,6 +3,7 @@ import logging
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.validators import RegexValidator
 from django.contrib.auth import get_user_model
 from django.db import models, IntegrityError
 from django.db.models import Q
@@ -11,6 +12,29 @@ from django.utils import timezone
 
 from utils.email import get_name_from_email
 from utils.project import get_project_from_path
+
+
+class Tag(models.Model):
+    """
+    Simple model to store tags associated with a job.
+
+    Tags (or hashtags) are used to group jobs with similar topics (e.g.
+    validation), just like hashtags in Twitter group posts with similar topics.
+
+    The tag field is validated to enforce it only containing values that start
+    with a hashsymbol which is followed by alpha-numeric characters. Spaces and
+    punctuation is not allowed.
+    """
+    tag = models.CharField(
+        unique=True,
+        max_length=30,
+        validators=[
+            RegexValidator(
+                regex="^#[a-zA-Z0-9]*$",
+                message="Tag must start with `#` (hashsymbol) and only contain"
+                        " numbers and letters. Spaces and punctuation are not"
+                        " allowed.")
+        ])
 
 
 class Keyword(models.Model):
@@ -198,6 +222,8 @@ class Job(models.Model):
         # null=True
     )
 
+    tags = models.ManyToManyField(Tag, blank=True)
+
     ANALYSIS_STATUS_OPEN = "opn"
     ANALYSIS_STATUS_ONGOING = "ong"
     ANALYSIS_STATUS_DONE = "don"
@@ -375,9 +401,6 @@ class Job(models.Model):
 
     keywords = models.ManyToManyField(Keyword)
 
-    # -------------------------------------------------------------------------
-    # Methods
-    # -------------------------------------------------------------------------
     def __str__(self):
         return "{id}".format(
             id=self.job_id,
