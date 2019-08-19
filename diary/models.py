@@ -42,8 +42,9 @@ class JobQuerySet(models.QuerySet):
         should be presented. This is not a filter. It is a search.
         It might act like a filter most of the time, but this is the
         difference. If you search for nothing you will find nothing.
-        If you search for something, you till find something, given that it
-        can be found/exists.
+        If you search for something, you will find something, given that it
+        can be found/exists. A filter on the other hand will show everything
+        that is not removed through the filter (filtered out).
         """
         self.logger.debug("Search query: {}".format(search_query))
         if search_query.strip():
