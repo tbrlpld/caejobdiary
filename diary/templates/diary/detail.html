@@ -47,7 +47,14 @@ Job {{ job.job_id }} |
 						<div class="row">
 							<div class="col">
 								<div class="form-group">
-									{{ form.job_status.errors }}
+									{% if form.job_status.errors %}
+										<div id="changes-success" class="alert alert-warning alert-dismissible show" role="alert">
+											{{ form.job_status.errors }}
+											<button type="button" class="close" data-dismiss="alert">
+												<span>&times;</span>
+											</button>
+										</div>
+									{% endif %}
 									<label for="{{ form.job_status.id_for_label }}" class="text-muted">{{ form.job_status.label | title }}</label>
 									<select id="{{ form.job_status.id_for_label }}" class="custom-select" name="{{ form.job_status.html_name }}">
 										{% for choice in  form.job_status.field.choices %}
@@ -60,14 +67,28 @@ Job {{ job.job_id }} |
 						<div class="row">
 							<div class="col-12 col-sm-6">
 								<div class="form-group">
-									{{ form.info.errors }}
+									{% if form.info.errors %}
+										<div id="changes-success" class="alert alert-warning alert-dismissible show" role="alert">
+											{{ form.info.errors }}
+											<button type="button" class="close" data-dismiss="alert">
+												<span>&times;</span>
+											</button>
+										</div>
+									{% endif %}
 									<label for="{{ form.info.id_for_label }}" class="text-muted">{{ form.info.label | title }}</label>
 									<textarea id="{{ form.info.id_for_label }}" class="form-control" name="{{ form.info.html_name }}" rows="10">{{ form.info.value }}</textarea>
 								</div>
 							</div>
 							<div class="col-12  col-sm-6">
 								<div class="form-group">
-									{{ form.result_summary.errors }}
+									{% if form.result_summary.errors %}
+										<div id="changes-success" class="alert alert-warning alert-dismissible show" role="alert">
+											{{ form.result_summary.errors }}
+											<button type="button" class="close" data-dismiss="alert">
+												<span>&times;</span>
+											</button>
+										</div>
+									{% endif %}
 									<label for="{{ form.result_summary.id_for_label }}" class="text-muted">{{ form.result_summary.label | title }}</label>
 									<textarea id="{{ form.result_summary.id_for_label }}" class="form-control" name="{{ form.result_summary.html_name }}" rows="10">{{ form.result_summary.value }}</textarea>
 								</div>
@@ -76,7 +97,14 @@ Job {{ job.job_id }} |
 						<div class="row">
 							<div class="col-12 col-sm-6">
 								<div class="form-group">
-									{{ form.analysis_status.errors }}
+									{% if form.analysis_status.errors %}
+										<div id="changes-success" class="alert alert-warning alert-dismissible show" role="alert">
+											{{ form.analysis_status.errors }}
+											<button type="button" class="close" data-dismiss="alert">
+												<span>&times;</span>
+											</button>
+										</div>
+									{% endif %}
 									<label for="{{ form.analysis_status.id_for_label }}" class="text-muted">{{ form.analysis_status.label | title }}</label>
 									<select id="{{ form.analysis_status.id_for_label }}" class="custom-select" name="{{ form.analysis_status.html_name }}">
 										{% for choice in  form.analysis_status.field.choices %}
@@ -87,7 +115,14 @@ Job {{ job.job_id }} |
 							</div>
 							<div class="col-12 col-sm-6">
 								<div class="form-group">
-									{{ form.result_assessment.errors }}
+									{% if form.result_assessment.errors %}
+										<div id="changes-success" class="alert alert-warning alert-dismissible show" role="alert">
+											{{ form.result_assessment.errors }}
+											<button type="button" class="close" data-dismiss="alert">
+												<span>&times;</span>
+											</button>
+										</div>
+									{% endif %}
 									<label for="{{ form.result_assessment.id_for_label }}" class="text-muted">{{ form.result_assessment.label | title }}</label>
 									<select id="{{ form.result_assessment.id_for_label }}" class="custom-select" name="{{ form.result_assessment.html_name }}">
 										{% for choice in  form.result_assessment.field.choices %}
@@ -107,7 +142,14 @@ Job {{ job.job_id }} |
 						<div class="row">
 							<div class="col-12">
 								<div class="form-group">
-									{{ form.tags.errors }}
+									{% if form.tags.errors %}
+										<div id="changes-success" class="alert alert-warning alert-dismissible show" role="alert">
+											{{ form.tags.errors }}
+											<button type="button" class="close" data-dismiss="alert">
+												<span>&times;</span>
+											</button>
+										</div>
+									{% endif %}
 									<label class="text-muted">{% get_verbose_field_name job "tags" %}</label>
 									{% for tag in job.tags.all %}
 										<input type="text" name="tags[]" value="{{ tag.tag }}" disabled="">
