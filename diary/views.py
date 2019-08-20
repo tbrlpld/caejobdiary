@@ -97,8 +97,12 @@ def detail(request, job_id):
 
     if request.method == "POST":
         logger.debug("POST request received.")
+        # Grab the job object that corresponds with the id defined in the URL
         job = get_object_or_404(Job, pk=job_id)
+        # Map the form info from the request to the Django form instance in
+        # python for further usage
         form = JobForm(request.POST, instance=job)
+
         if form.is_valid():
             logger.debug("Form is valid")
             logger.debug("Tags: {}".format(request.POST.getlist("tags[]")))
@@ -106,35 +110,42 @@ def detail(request, job_id):
             # Define session value for update success
             logger.debug(f"Job update successful! Defining session parameter.")
             request.session["update_success"] = True
+
+            # If a querystring was present in the POST action URL, this should be
+            # passed on the next GET
+            querystring = request.GET.urlencode()
+            if querystring:
+                querystring = "?" + querystring
+
+            return HttpResponseRedirect(
+                reverse("diary:detail", kwargs={"job_id": job_id})
+                + querystring
+            )
         else:
+            # In case of a form error, continue similarly as with the GET
+            # request. The form contains its errors and they can be displayed.
+            #
+            # The request is rendered as if a GET request was submitted. This
+            # also means that the querystring parameters in
+            # `request.GET.urlencode()` are displayed in the URL as normally.
             logger.error(form.errors)
 
-        # If a querystring was present in the POST action URL, this should be
-        # passed on the next GET
-        querystring = request.GET.urlencode()
-        if querystring:
-            querystring = "?" + querystring
-
-        return HttpResponseRedirect(
-            reverse("diary:detail",
-                    kwargs={
-                        "job_id": job_id
-                    }) + querystring
-        )
     else:
+        # In case of a GET request just create the form with already existing
+        # data
         job = get_object_or_404(Job, pk=job_id)
         form = JobForm(instance=job)
 
-        # Check if the form has been used successfully to update the Job
-        update_success = request.session.pop("update_success", False)
-        logger.debug(f"Update successful: {update_success}")
+    # Check if the form has been used successfully to update the Job
+    update_success = request.session.pop("update_success", False)
+    logger.debug(f"Update successful: {update_success}")
 
-        context = {
-            "job": job,
-            "form": form,
-            "update_success": update_success
-        }
-        return render(request, "diary/detail.html", context)
+    context = {
+        "job": job,
+        "form": form,
+        "update_success": update_success
+    }
+    return render(request, "diary/detail.html", context)
 
 
 class AboutView(TemplateView):
