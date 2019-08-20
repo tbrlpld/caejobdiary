@@ -36,6 +36,9 @@ class Tag(models.Model):
                         " allowed.")
         ])
 
+    def __str__(self):
+        return self.tag
+
 
 class Keyword(models.Model):
     """
