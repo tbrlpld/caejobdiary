@@ -101,6 +101,7 @@ def detail(request, job_id):
         form = JobForm(request.POST, instance=job)
         if form.is_valid():
             logger.debug("Form is valid")
+            logger.debug("Tags: {}".format(request.POST.getlist("tags[]")))
             form.save()
             # Define session value for update success
             logger.debug(f"Job update successful! Defining session parameter.")

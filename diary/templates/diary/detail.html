@@ -105,6 +105,18 @@ Job {{ job.job_id }} |
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-12">
+								<div class="form-group">
+									{{ form.tags.errors }}
+									<label class="text-muted">{% get_verbose_field_name job "tags" %}</label>
+									{% for tag in job.tags.all %}
+										<input type="text" name="tags[]" value="{{ tag.tag }}" disabled="">
+									{% endfor %}
+									<input type="text" name="tags[]" value="">
+								</div>
+							</div>
+						</div>
+						<div class="row">
 							<div class="col d-flex justify-content-between">
 								<input type="submit" class="btn btn-success" value="Save Changes">
 								<input id="reset-button" class="btn btn-link" type="reset" value="Reset">
