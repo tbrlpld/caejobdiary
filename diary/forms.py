@@ -11,9 +11,9 @@ class JobForm(ModelForm):
         model = Job
         fields = [
             "job_status",
-            "job_dir",
             "info",
             "analysis_status",
             "result_assessment",
-            "result_summary"
+            "result_summary",
+            "tags"
         ]

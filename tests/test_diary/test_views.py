@@ -6,7 +6,8 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 sys.path.insert(0, settings.TOP_LEVEL_DIR)
-from diary.models import Job  # noqa: E402
+from .helper import to_dict  # noqa: E402
+from diary.models import Job, Tag  # noqa: E402
 from utils.logger_copy import copy_logger_settings  # noqa: E402
 
 
@@ -554,6 +555,7 @@ class EmptyDBJobIndexViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context["jobs_list"], [])
 
+
 # ======================================================================
 # Job Detail View Tests
 # ======================================================================
@@ -666,3 +668,87 @@ class JobDetailViewTest(TestCase):
         self.assertContains(
             response,
             f'href="/?user={self.job_user_A_project_A.user.username}"')
+
+
+class HandlingTagsInJobDetailViewTest(TestCase):
+    """
+    Tests regarding the handling of tags in the job detail view
+
+    Tags can be added to a job in the job detail form. Job and tags have a
+    many-to-many relationship. To create a many-to-many relationship, both
+    objects need to exist already.
+
+    The user has the option to define new tags in the form though.
+    This requires some special handling for the tags that are newly created in
+    the form.
+    """
+
+    def setUp(self):
+        self.user_A = User.objects.create(
+            username="usera", email="usera@example.com")
+
+        self.project_A = "3001234"
+
+        self.job_user_A_project_A = Job(
+            job_id=123,
+            user=self.user_A,
+            project=self.project_A,
+            main_name="some_main_title.key",
+            sub_dir="/some/not/existing/path",
+            job_status=Job.JOB_STATUS_PENDING
+        )
+        self.job_user_A_project_A.full_clean()
+        self.job_user_A_project_A.save()
+
+        self.tag_1 = Tag(tag="#firsttag")
+        self.tag_1.full_clean()
+        self.tag_1.save()
+
+        self.job_user_A_project_A.tags.add(self.tag_1)
+
+    def test_post_of_unaltered_job(self):
+        """
+        My idea is to create a post with an unaltered job to check that this
+        does not yield any errors in when processed in the view or converted
+        to a form.
+
+        This is then the basis to create tests in which the dict is
+        altered before submission like it would be when the user makes
+        changes in the rendered form.
+        """
+        logger.info("Test post of unaltered job dict")
+
+        job_dict = to_dict(self.job_user_A_project_A)
+        logger.debug("Job Dict: {}".format(job_dict))
+
+        response = self.client.post(
+            f"/{self.job_user_A_project_A.job_id}/",
+            job_dict, follow=True)
+        # logger.debug(response)
+        logger.debug("Form Errors: {}".format(response.context["form"].errors))
+        # The error dictionary should be empty. An empty dictionary is falsey.
+        self.assertFalse(response.context["form"].errors)
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_of_bad_values(self):
+        """
+        Test that there will be form errors in the response when the posted
+        data is altered in an unexpected way
+        """
+        logger.info("Test post of bad values in job dict")
+
+        job_dict = to_dict(self.job_user_A_project_A)
+        self.assertTrue(isinstance(job_dict["tags"], list))
+        # Changing the type of the tags item
+        job_dict["tags"] = "This is not the right type"
+        logger.debug("Job Dict: {}".format(job_dict))
+
+        response = self.client.post(
+            f"/{self.job_user_A_project_A.job_id}/",
+            job_dict, follow=True)
+        # logger.debug(response)
+        logger.debug("Form Errors: "
+                     + response.context["form"].errors.__repr__())
+        # The error dictionary should be empty. An empty dictionary is falsey.
+        self.assertTrue(response.context["form"].errors)
+        self.assertEqual(response.status_code, 200)

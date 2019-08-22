@@ -102,17 +102,21 @@ def detail(request, job_id):
         # Map the form info from the request to the Django form instance in
         # python for further usage
         form = JobForm(request.POST, instance=job)
+        logger.debug("Form Data: {}".format(form.data))
+        logger.debug("Form Errors: {}".format(form.errors))
 
         if form.is_valid():
             logger.debug("Form is valid")
-            logger.debug("Tags: {}".format(request.POST.getlist("tags[]")))
+            logger.debug("Cleaned Data: {}".format(form.cleaned_data))
+            logger.debug("getlist('tags'): {}".format(
+                request.POST.getlist("tags")))
             form.save()
             # Define session value for update success
             logger.debug(f"Job update successful! Defining session parameter.")
             request.session["update_success"] = True
 
-            # If a querystring was present in the POST action URL, this should be
-            # passed on the next GET
+            # If a querystring was present in the POST action URL, this should
+            # be passed on the next GET
             querystring = request.GET.urlencode()
             if querystring:
                 querystring = "?" + querystring
@@ -128,7 +132,7 @@ def detail(request, job_id):
             # The request is rendered as if a GET request was submitted. This
             # also means that the querystring parameters in
             # `request.GET.urlencode()` are displayed in the URL as normally.
-            logger.error(form.errors)
+            logger.debug("Form errors occurred: {}".format(form.errors))
 
     else:
         # In case of a GET request just create the form with already existing
