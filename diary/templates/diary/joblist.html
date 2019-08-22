@@ -86,7 +86,7 @@ Job List |
 						<div class="row">
 							<div class="col-12 d-flex flex-column flex-md-row text-nowrap align-items-baseline">
 								<h5 class="card-title">
-									<a href="{% url "diary:detail" job_id=job.job_id %}{% get_full_querystring request %}" class="badge badge-primary">{{ job.job_id}}</a>
+									<a href="{% url "diary:detail" job_id=job.job_id %}" class="badge badge-primary">{{ job.job_id}}</a>
 								</h5>
 								<h6 class="card-title mx-2 text-truncate">
 									{{ job.main_name }}
@@ -129,7 +129,7 @@ Job List |
 						{% if job.base_runs.all %}
 						<li class="list-group-item py-2">
 							{% for base_run in job.base_runs.all %}
-								<a href="{% url "diary:detail" job_id=base_run.job_id %}{% get_full_querystring request %}" class="badge badge-secondary">{{ base_run.job_id}}</a>
+								<a href="{% url "diary:detail" job_id=base_run.job_id %}" class="badge badge-secondary">{{ base_run.job_id}}</a>
 							{% endfor %}
 						</li>
 						{% endif %}

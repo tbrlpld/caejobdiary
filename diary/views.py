@@ -22,6 +22,15 @@ class JobListView(ListView):
     # Define the name with which the template can reference the queryset
     context_object_name = "jobs_list"
 
+    def dispatch(self, request, *args, **kwargs):
+        self.logger.debug("Dispatching JobListView")
+        # Write the current querystring to the session. This allows other views
+        # to retrieve this information, e.g. to link back to the filtered
+        # joblist view
+        request.session["joblist_querystring"] = request.GET.urlencode()
+        self.logger.debug(f"Saved querystring: {request.session['joblist_querystring']}")
+        return super().dispatch(request, *args, **kwargs)
+
     def get_queryset(self):
         self.logger.debug("JobListView.get_queryset called.")
 
@@ -82,7 +91,8 @@ class JobListView(ListView):
 
 
 def detail(request, job_id):
-    """Django view to show detailed information about a job from the DB
+    """
+    Django view to show detailed information about a job from the DB
 
     Queries the defined job_id from the database and returns all
     available information rendered in the associated template.
@@ -115,23 +125,11 @@ def detail(request, job_id):
             logger.debug(f"Job update successful! Defining session parameter.")
             request.session["update_success"] = True
 
-            # If a querystring was present in the POST action URL, this should
-            # be passed on the next GET
-            querystring = request.GET.urlencode()
-            if querystring:
-                querystring = "?" + querystring
-
             return HttpResponseRedirect(
-                reverse("diary:detail", kwargs={"job_id": job_id})
-                + querystring
-            )
+                reverse("diary:detail", kwargs={"job_id": job_id}))
         else:
             # In case of a form error, continue similarly as with the GET
             # request. The form contains its errors and they can be displayed.
-            #
-            # The request is rendered as if a GET request was submitted. This
-            # also means that the querystring parameters in
-            # `request.GET.urlencode()` are displayed in the URL as normally.
             logger.debug("Form errors occurred: {}".format(form.errors))
 
     else:
@@ -147,7 +145,8 @@ def detail(request, job_id):
     context = {
         "job": job,
         "form": form,
-        "update_success": update_success
+        "update_success": update_success,
+        "joblist_querystring": request.session.get("joblist_querystring", None)
     }
     return render(request, "diary/detail.html", context)
 

@@ -33,25 +33,25 @@ def get_extendable_request_querystring(request):
         return ""
 
 
-@register.simple_tag
-def get_full_querystring(request):
-    """
-    Get the querystring from a request with leading `?` or empty string
+# @register.simple_tag
+# def get_full_querystring(request):
+#     """
+#     Get the querystring from a request with leading `?` or empty string
 
-    Parameters
-    ----------
-    request :  django.http.HttpRequest
+#     Parameters
+#     ----------
+#     request :  django.http.HttpRequest
 
-    Returns
-    -------
-    str
-        Querystring with leading `?` if a querystring could be extracted from
-        the request. Otherwise the empty string is returned.
+#     Returns
+#     -------
+#     str
+#         Querystring with leading `?` if a querystring could be extracted from
+#         the request. Otherwise the empty string is returned.
 
-    """
+#     """
 
-    querystring = request.GET.urlencode()
-    if querystring:
-        return "?" + querystring
-    else:
-        return ""
+#     querystring = request.GET.urlencode()
+#     if querystring:
+#         return "?" + querystring
+#     else:
+#         return ""

@@ -17,7 +17,7 @@ Job {{ job.job_id }} |
 {% endblock %}
 {% block page_header_content %}
 <div class="d-flex align-items-center justify-content-end text-nowrap">
-	<a class="btn btn-outline-dark btn-sm" href="{% url "diary:joblist" %}{% get_full_querystring request %}">&#8676 Back to Job List</a>
+	<a class="btn btn-outline-dark btn-sm" href="{% url "diary:joblist" %}{% if joblist_querystring %}?{{joblist_querystring}}{% endif %}">&#8676 Back to Job List</a>
 </div>
 {% endblock %}
 {% block content %}
@@ -34,7 +34,7 @@ Job {{ job.job_id }} |
 		<div class="row no-gutters">
 			<div class="col-9">
 				<div class="card-body">
-					<form id="detail-form" action="{% url "diary:detail" job.job_id %}{% get_full_querystring request %}" method="post">
+					<form id="detail-form" action="{% url "diary:detail" job.job_id %}{% if joblist_querystring %}?{{joblist_querystring}}{% endif %}" method="post">
 						<!--
 						The current detail page might have a querystring if it was linked to by a filtered index.
 						That querystring needs to be passed through, even if the form is submitted, because the form 
@@ -44,7 +44,8 @@ Job {{ job.job_id }} |
 						The current querystring is added to the action URL.
 						 -->
 						{% csrf_token %}
-						<div class="row">
+						{{ form.as_p }}
+<!-- 						<div class="row">
 							<div class="col">
 								<div class="form-group">
 									{% if form.job_status.errors %}
@@ -157,13 +158,14 @@ Job {{ job.job_id }} |
 									<input type="text" name="tags[]" value="">
 								</div>
 							</div>
-						</div>
+						</div>-->
+						{# <input type="text" name="tags" value=""> #}
 						<div class="row">
 							<div class="col d-flex justify-content-between">
 								<input type="submit" class="btn btn-success" value="Save Changes">
 								<input id="reset-button" class="btn btn-link" type="reset" value="Reset">
 							</div>
-						</div>
+						</div> 
 					</form>
 				</div>
 			</div>

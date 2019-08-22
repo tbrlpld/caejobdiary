@@ -730,10 +730,11 @@ class HandlingTagsInJobDetailViewTest(TestCase):
         self.assertFalse(response.context["form"].errors)
         self.assertEqual(response.status_code, 200)
 
-    def test_post_of_bad_values(self):
+    def test_post_of_wrong_type_in_tags_item(self):
         """
         Test that there will be form errors in the response when the posted
-        data is altered in an unexpected way
+        data is altered in a way that should not happen through the rendered
+        form
         """
         logger.info("Test post of bad values in job dict")
 
@@ -741,6 +742,7 @@ class HandlingTagsInJobDetailViewTest(TestCase):
         self.assertTrue(isinstance(job_dict["tags"], list))
         # Changing the type of the tags item
         job_dict["tags"] = "This is not the right type"
+        self.assertFalse(isinstance(job_dict["tags"], list))
         logger.debug("Job Dict: {}".format(job_dict))
 
         response = self.client.post(
