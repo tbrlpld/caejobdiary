@@ -4,7 +4,10 @@ print("Loading local settings.")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "192.168.0.13"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "192.168.0.13",
+                 # Required for requests with django.test.Client from the shell
+                 "testserver"
+                 ]
 
 # Environment specific constants for CAE Job Diary
 
