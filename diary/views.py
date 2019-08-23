@@ -28,7 +28,8 @@ class JobListView(ListView):
         # to retrieve this information, e.g. to link back to the filtered
         # joblist view
         request.session["joblist_querystring"] = request.GET.urlencode()
-        self.logger.debug(f"Saved querystring: {request.session['joblist_querystring']}")
+        self.logger.debug("Saved querystring: "
+                          f"{request.session['joblist_querystring']}")
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
