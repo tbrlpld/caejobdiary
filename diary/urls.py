@@ -7,4 +7,9 @@ urlpatterns = [
     path("<int:job_id>/", views.detail, name="detail"),
     path("about/", views.AboutView.as_view(), name="about"),
     path("", views.JobListView.as_view(), name="joblist"),
+    re_path(
+        r"^tag-autocomplete/$",
+        views.TagAutocomplete.as_view(create_field="tag"),
+        name="tag-autocomplete"
+    )
 ]

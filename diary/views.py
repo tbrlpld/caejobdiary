@@ -1,5 +1,6 @@
 import logging
 
+from dal import autocomplete
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -8,7 +9,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView, TemplateView
 
-from diary.models import Job
+from diary.models import Job, Tag
 from diary.forms import JobForm
 
 
@@ -154,3 +155,32 @@ def detail(request, job_id):
 
 class AboutView(TemplateView):
     template_name = "diary/about.html"
+
+
+class TagAutocomplete(autocomplete.Select2QuerySetView):
+    """
+    View to return a queryset to build a autocomplete of existing tags.
+
+    This will be used in the widget to create, update and delete tags in the
+    job form.
+    """
+    logger = logging.getLogger(__name__).getChild("TagAutocomplete")
+
+    def get_queryset(self):
+        self.logger.debug("Building the queryset")
+        queryset = Tag.objects.all()
+
+        # If there is a query defined, limit the query to tags starting with
+        # the given query
+        if self.q:
+            queryset = queryset.filter(tag__istartswith=self.q)
+
+        return queryset
+
+    def has_add_permission(self, request):
+        """
+        Overriding the normal check for user permission, because there are no
+        users as of now. This gives everybody the right to create new tags,
+        which is usually limited to registered staff users.
+        """
+        return True

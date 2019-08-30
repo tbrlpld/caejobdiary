@@ -1,12 +1,14 @@
 """
 Module defining the forms for the CAE Job Diary application.
 """
-from django.forms import ModelForm
+from dal import autocomplete
+from django import forms
 
-from .models import Job
+from .models import Job, Tag
 
 
-class JobForm(ModelForm):
+class JobForm(forms.ModelForm):
+
     class Meta:
         model = Job
         fields = [
@@ -17,3 +19,6 @@ class JobForm(ModelForm):
             "result_summary",
             "tags"
         ]
+        widgets = {
+            "tags": autocomplete.ModelSelect2Multiple(url="diary:tag-autocomplete")
+        }
