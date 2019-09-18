@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 import json
 import logging
-import logging.config
 
 # Normally nothing should be imported from django in the settings, but the
 # ImproperlyConfigured is an exception because it explicitly directly points
@@ -21,13 +20,13 @@ import logging.config
 from django.core.exceptions import ImproperlyConfigured
 
 TOP_LEVEL_DIR = os.path.dirname(os.path.dirname(os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__)))))
+    os.path.abspath(__file__))))
 print("TOP_LEVEL_DIR : {}".format(TOP_LEVEL_DIR))
 
-# # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(
-    os.path.abspath(__file__))))
-print("BASE_DIR : {}".format(BASE_DIR))
+# # # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(
+#     os.path.abspath(__file__))))
+# print("BASE_DIR : {}".format(BASE_DIR))
 
 
 # -----------------------------------------------------------------------------

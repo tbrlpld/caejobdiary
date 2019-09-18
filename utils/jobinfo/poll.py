@@ -248,7 +248,8 @@ def start_job_creation_process_from_joblogfile(joblogfile):
             continue  # Move to next loop
         # Further processing is not possible if not all required info from
         # README is available.
-        if not required_keys_avaiable(readme_dict=readme_info):
+        if (readme_info is None
+           or not required_keys_avaiable(readme_dict=readme_info)):
             logger.error("Not all required info from README is available!"
                          + " README processing should be checked!\n"
                          + " Affected README: {}\n".format(readme_filepath)

@@ -16,7 +16,7 @@ from mock import patch
 from diary.models import Job
 from utils.graceful_killer import GracefulKiller
 from utils.logger_copy import copy_logger_settings
-from utils.tests.helper import make_cluster_script
+from test_utils.helper import make_cluster_script
 
 # Functions to be tested
 from utils.jobinfo.update import update_status_of_unfinished_jobs_in_DB
