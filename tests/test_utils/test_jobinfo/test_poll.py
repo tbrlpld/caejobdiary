@@ -523,6 +523,52 @@ main_name=main_name)
         self.assertEqual(Job.objects.count(), number_of_jobs_before_processing)
 
     # -------------------------------------------------------------------------
+    def test_empty_README(self):
+        logger.info("-"*80)
+        logger.info("Test processing with an empty README")
+        logger.info("-"*80)
+
+        number_of_jobs_before_processing = Job.objects.count()
+        job_id = self.free_id
+
+        with tempfile.TemporaryDirectory() as sub_dir:
+
+            # Defining jonlogfile content
+            joblogfile_content = """
+job_number: {job_id}
+sge_o_workdir: {sub_dir}
+""".format(
+sub_dir=sub_dir,
+job_id=job_id
+)
+
+            # Make job folder
+            job_dir = os.path.join(sub_dir, str(job_id))
+            os.makedirs(job_dir)
+
+            # Create README
+            logger.debug("Making readme file...")
+            email=self.user_A.email
+            main_name = "0123_PRJ_VEHC_SLD_load_case_X_12.5_.key"
+            readme_content=""
+            readme_filename = f"README.{main_name}.README"
+            readme_filepath = os.path.join(job_dir, readme_filename)
+            with open(readme_filepath, mode="w") as f:
+                f.write(readme_content)
+
+            start_processing_from_content = add_content_to_temp_inputfilepath(
+                start_job_creation_process_from_joblogfile)
+
+            with self.assertLogs(logger="utils.jobinfo.poll",
+                                 level=logging.ERROR) as cm:
+                job_created = start_processing_from_content(joblogfile_content)
+                logger.info("Logs of required level: {}".format(cm.output))
+
+        self.assertFalse(job_created)
+        # Number of jobs should not be changed
+        self.assertEqual(Job.objects.count(), number_of_jobs_before_processing)
+
+    # -------------------------------------------------------------------------
     def test_no_README_in_job_dir(self):
         logger.info("-"*80)
         logger.info("Test processing without a README in the job_dir")
