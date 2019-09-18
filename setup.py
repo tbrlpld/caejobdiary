@@ -5,7 +5,7 @@ requirements = [line.strip() for line in open("requirements.txt").readlines()]
 
 setup(
     name="CAEJobDiary",
-    version="1.0.0",
+    version="1.1.0",
     author="Tibor Leupold",
     author_email="tibor@lpld.io",
     packages=[
