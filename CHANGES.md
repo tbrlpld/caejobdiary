@@ -1,6 +1,23 @@
 Version History
 ===============
 
+v1.1.0 -- 2019-09-18
+--------------------
+
+* Simplified project structure. One level of depth was removed. 
+  * This does not affect the `bin` commands.
+  * The `manage.py` module was moved up one directory level. 
+  * This means that the `caejobdiary/` directory does not have to be added to the path anymore.
+  * The REAMDE has been updated accordingly.
+* Fixed "readme dict is None" bug. When the job readme was empty it did cause an issue that would 
+  terminate the polling process.
+
+
+v1.0.1 -- 2019-08-12
+--------------------
+
+* Public re-release. The repository has been cleaned from sensitive information. 
+
 
 v1.0.0 -- 2019-06-25
 --------------------
