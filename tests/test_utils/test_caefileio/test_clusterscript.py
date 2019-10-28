@@ -9,7 +9,7 @@ import tempfile
 from django.test import TestCase
 
 from utils.logger_copy import copy_logger_settings
-from test_utils.helper import add_content_to_temp_inputfilepath
+from tests.test_utils.helper import add_content_to_temp_inputfilepath
 
 from utils.caefileio.clusterscript import get_cluster_script_from_list
 from utils.caefileio.clusterscript import get_cluster_scratch_dir_from_script

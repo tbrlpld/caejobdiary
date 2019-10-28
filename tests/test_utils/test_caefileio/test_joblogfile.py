@@ -9,7 +9,7 @@ import tempfile
 from django.test import TestCase
 
 from utils.logger_copy import copy_logger_settings
-from test_utils.helper import add_content_to_temp_inputfilepath
+from tests.test_utils.helper import add_content_to_temp_inputfilepath
 
 from utils.caefileio.joblogfile import get_job_info_from_joblogfile
 from utils.caefileio.joblogfile import is_joblogfilename

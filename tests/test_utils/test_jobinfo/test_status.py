@@ -11,7 +11,7 @@ from django.test import TestCase
 
 from diary.models import Job
 from utils.logger_copy import copy_logger_settings
-from test_utils.helper import make_cluster_script
+from tests.test_utils.helper import make_cluster_script
 
 from utils.jobinfo.status import get_job_status_and_job_dir_from_sub_dir
 from utils.jobinfo.status import get_renamed_job_folder_from_list

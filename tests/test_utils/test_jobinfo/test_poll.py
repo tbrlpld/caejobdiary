@@ -16,8 +16,8 @@ import pytz
 from diary.models import Job
 from utils.caefileio.readme import get_job_info_from_readme
 from utils.logger_copy import copy_logger_settings
-from test_utils.helper import add_content_to_temp_inputfilepath
-from test_utils.helper import make_readme
+from tests.test_utils.helper import add_content_to_temp_inputfilepath
+from tests.test_utils.helper import make_readme
 
 # Major Functions
 from utils.jobinfo.poll import start_job_creation_process_from_joblogfile
