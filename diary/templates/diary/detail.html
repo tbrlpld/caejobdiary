@@ -34,7 +34,7 @@ Job {{ job.job_id }} |
 		<div class="row no-gutters">
 			<div class="col-9">
 				<div class="card-body">
-					<form id="detail-form" action="{% url "diary:detail" job.job_id %}{% if joblist_querystring %}?{{joblist_querystring}}{% endif %}" method="post">
+					<form id="detail-form" action="{% url 'diary:detail' job.job_id %}{% if joblist_querystring %}?{{joblist_querystring}}{% endif %}" method="post">
 						<!--
 						The current detail page might have a querystring if it was linked to by a filtered index.
 						That querystring needs to be passed through, even if the form is submitted, because the form
