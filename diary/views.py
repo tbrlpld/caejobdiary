@@ -168,7 +168,7 @@ class TagAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
         self.logger.debug("Building the queryset")
-        queryset = Tag.objects.all()
+        queryset = Tag.objects.all().order_by("tag").distinct()
 
         # If there is a query defined, limit the query to tags starting with
         # the given query
