@@ -35,3 +35,16 @@ body {
 	width: 16px;
 	height: auto;
 }
+
+/* Overriding the django-autocmplete-light rendering */
+
+.select2-container {
+	width: 100% !important;
+}
+
+.select2-dropdown,
+.select2-container--default .select2-selection--multiple {
+	background-color: #fff !important;
+	border: 1px solid #ced4da !important;
+	/*border-radius: .25rem !important;*/
+}

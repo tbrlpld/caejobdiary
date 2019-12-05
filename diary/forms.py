@@ -20,5 +20,11 @@ class JobForm(forms.ModelForm):
             "tags"
         ]
         widgets = {
-            "tags": autocomplete.ModelSelect2Multiple(url="diary:tag-autocomplete")
+            "tags": autocomplete.ModelSelect2Multiple(
+                url="diary:tag-autocomplete",
+                attrs={
+                    # "class": "form-control",
+                    # "style": "border: 1px solid #ced4da !important; border-radius: .25rem !important;",
+                },
+            ),
         }
