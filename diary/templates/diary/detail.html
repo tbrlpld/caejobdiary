@@ -44,8 +44,8 @@ Job {{ job.job_id }} |
 						The current querystring is added to the action URL.
 						 -->
 						{% csrf_token %}
-						{{ form.as_p }}
-<!-- 						<div class="row">
+						<!-- {{ form.as_p }} -->
+ 						<div class="row">
 							<div class="col">
 								<div class="form-group">
 									{% if form.job_status.errors %}
@@ -152,13 +152,12 @@ Job {{ job.job_id }} |
 										</div>
 									{% endif %}
 									<label class="text-muted">{% get_verbose_field_name job "tags" %}</label>
-									{% for tag in job.tags.all %}
-										<input type="text" name="tags[]" value="{{ tag.tag }}" disabled="">
-									{% endfor %}
-									<input type="text" name="tags[]" value="">
+									<div>
+										{{ form.tags }}
+									</div>
 								</div>
 							</div>
-						</div>-->
+						</div>
 						<!-- <input type="text" name="tags" value=""> -->
 						<div class="row">
 							<div class="col d-flex justify-content-between">
