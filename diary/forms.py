@@ -23,6 +23,7 @@ class JobForm(forms.ModelForm):
             "tags": autocomplete.ModelSelect2Multiple(
                 url="diary:tag-autocomplete",
                 attrs={
+                    "form": "detail-form",
                     # "class": "form-control",
                     # "style": "border: 1px solid #ced4da !important; border-radius: .25rem !important;",
                 },
