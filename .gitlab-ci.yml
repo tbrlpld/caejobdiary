@@ -1,6 +1,6 @@
 # image: python:3.4
 # image: python:3.7
-image: tibsel/caejdci:python
+image: tbrlpld/caejobdiary:ci
 
 before_script:
  # - apt-get update -qq && apt-get install -y -qq sqlite3 libsqlite3-dev
