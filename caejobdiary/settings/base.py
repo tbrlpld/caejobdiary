@@ -133,10 +133,10 @@ WSGI_APPLICATION = 'caejobdiary.wsgi.application'
 DATABASE_DIR = TOP_LEVEL_DIR
 
 DATABASES = {
-    'sqlite': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(DATABASE_DIR, 'db.sqlite3'),
-    },
+    # 'sqlite': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(DATABASE_DIR, 'db.sqlite3'),
+    # },
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'caejd',
